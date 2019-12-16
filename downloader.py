@@ -17,6 +17,8 @@ parser = argparse.ArgumentParser(description='ImageNet image scraper')
 parser.add_argument('-scrape_only_flickr', default=True, type=lambda x: (str(x).lower() == 'true'))
 parser.add_argument('-number_of_classes', default=10, type=int)
 parser.add_argument('-images_per_class', default=10, type=int)
+parser.add_argument('-start', default=10, type=int)
+parser.add_argument('-end', default=10, type=int)
 parser.add_argument('-data_root', default='', type=str)
 parser.add_argument('-use_class_list', default=False,type=lambda x: (str(x).lower() == 'true'))
 parser.add_argument('-class_list', default=[], nargs='*')
@@ -51,7 +53,7 @@ with open(class_info_json_filepath) as class_info_json_f:
 
 classes_to_scrape = []
 
-class_list = get_list_ids("index_to_name.json")
+class_list = get_list_ids("index_to_name.json", start=args.start, end=args.end)
 
 for item in class_list:
    classes_to_scrape.append(item)
@@ -290,8 +292,8 @@ def get_image(img_url, class_folder):
         return finish('success')
 
 
-def run():
-
+def run(classes_to_scrape: list = classes_to_scrape):
+    print("scraping {} classes".format(len(classes_to_scrape)))
     for class_wnid in classes_to_scrape:
 
         class_name = class_info_dict[class_wnid]["class_name"]
@@ -308,9 +310,9 @@ def run():
         class_images.value = 0
 
         urls = [url.decode('utf-8') for url in resp.content.splitlines()]
-
         for url in  urls:
             get_image(url, class_folder)
+    
 
 
 if __name__ == "__main__":
