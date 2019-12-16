@@ -31,16 +31,4 @@ python ./downloader.py
 ```
 You can find class list in [this csv](https://github.com/mf1024/ImageNet-datasets-downloader/blob/master/classes_in_imagenet.csv) where I list every class that appear in the ImageNet with number of total urls and total flickr urls it that class.
 
-# Multiprocessing workers 
-
-I've implementet parallel request processing and I've added **multiprocessing_workers parameter** which by default is 8. You can turn it higher, but I havent yet tested the limits of flickr allowed bandwith myself, so use it with care and you will have to find the limits yourself if you want to go for the maximum speed.
-
-You can do something like this:
-
-```
-python ./downloader.py \
-    -data_root /data_root_folder/imagenet \
-    -number_of_classes 1000 \
-    -images_per_class 500 \
-    -multiprocessing_workers 24
 ```
